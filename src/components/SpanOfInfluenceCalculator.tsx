@@ -194,6 +194,21 @@ export function SpanOfInfluenceCalculator() {
   const [managerShare, setManagerShare] = useState("70");
   const [absenceReduction, setAbsenceReduction] = useState("78");
 
+  // Part B — 3e compliance / claim risk
+  const [claimCost, setClaimCost] = useState("160000");
+  const [claimProbability, setClaimProbability] = useState("10");
+  const [riskReduction, setRiskReduction] = useState("");
+
+  // Part B — 3f top performer retention
+  const [topRetained, setTopRetained] = useState("");
+  const [topSalary, setTopSalary] = useState("");
+  const [performancePremium, setPerformancePremium] = useState("2");
+
+  // Part B — 3g policy coordination labor
+  const [coordinationHours, setCoordinationHours] = useState("");
+  const [hourlyCost, setHourlyCost] = useState("75");
+
+
   const directTotal =
     num(hrTech) + num(recruiting) + num(learning) + num(hrComp);
 
