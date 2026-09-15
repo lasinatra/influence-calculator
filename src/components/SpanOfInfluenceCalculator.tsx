@@ -585,6 +585,120 @@ export function SpanOfInfluenceCalculator() {
               </div>
             </div>
 
+            {/* Part B — risk, retention, coordination */}
+            <div className="mt-8 rounded-xl bg-white p-6 shadow-sm md:p-8">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h3 className="text-lg font-semibold text-navy">
+                  Risk, retention and coordination
+                </h3>
+                <p className="text-xs text-muted-text">
+                  Part B &middot; 3e&ndash;3g
+                </p>
+              </div>
+
+              <div className="mt-6 border-t border-mid-gray pt-6">
+                <p className="text-sm font-medium text-navy">
+                  <span className="text-gold">3e</span> Compliance / employment
+                  claim risk
+                </p>
+                <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  <NumberField
+                    id="claim-cost"
+                    label="Avg cost of an employment claim"
+                    prefix="$"
+                    value={claimCost}
+                    onChange={setClaimCost}
+                    source="Hiscox Employment Practices Liability report: the average cost to defend and settle an employment charge is roughly $160,000."
+                  />
+                  <NumberField
+                    id="claim-probability"
+                    label="Baseline annual claim probability"
+                    suffix="%"
+                    value={claimProbability}
+                    onChange={setClaimProbability}
+                    source="Hiscox: US employers face roughly a 10% chance of an employment charge being filed against them in a given year."
+                  />
+                  <NumberField
+                    id="risk-reduction"
+                    label="Risk reduction from HR programs"
+                    suffix="%"
+                    value={riskReduction}
+                    onChange={setRiskReduction}
+                    placeholder="your estimate"
+                    estimate
+                  />
+                </div>
+              </div>
+
+              <div className="mt-8 border-t border-mid-gray pt-6">
+                <p className="text-sm font-medium text-navy">
+                  <span className="text-gold">3f</span> Top performer retention
+                </p>
+                <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  <NumberField
+                    id="top-retained"
+                    label="Top performers retained via HR intervention"
+                    value={topRetained}
+                    onChange={setTopRetained}
+                    placeholder="your estimate"
+                    estimate
+                  />
+                  <NumberField
+                    id="top-salary"
+                    label="Avg salary of a retained top performer"
+                    prefix="$"
+                    value={topSalary}
+                    onChange={setTopSalary}
+                    placeholder="your estimate"
+                    estimate
+                  />
+                  <NumberField
+                    id="performance-premium"
+                    label="Performance premium multiplier"
+                    suffix="x"
+                    step="0.1"
+                    value={performancePremium}
+                    onChange={setPerformancePremium}
+                    source="Research on individual output variance (Hunter, Schmidt &amp; Judiesch; O'Boyle &amp; Aguinis) finds high performers deliver roughly twice the output of an average performer in complex roles."
+                  />
+                </div>
+              </div>
+
+              <div className="mt-8 border-t border-mid-gray pt-6">
+                <p className="text-sm font-medium text-navy">
+                  <span className="text-gold">3g</span> Policy coordination
+                  labor
+                </p>
+                <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  <NumberField
+                    id="coordination-hours"
+                    label="Annual policy-coordination hours"
+                    value={coordinationHours}
+                    onChange={setCoordinationHours}
+                    placeholder="your estimate"
+                    estimate
+                  />
+                  <NumberField
+                    id="hourly-cost"
+                    label="Blended hourly cost"
+                    prefix="$"
+                    value={hourlyCost}
+                    onChange={setHourlyCost}
+                    source="Bureau of Labor Statistics Employer Costs for Employee Compensation: blended hourly cost of wages plus benefits for professional and management staff, rounded to $75."
+                  />
+                </div>
+              </div>
+
+              <p className="mt-8 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
+                The HR-Attributable Share is not applied to 3e, 3f or 3g. Each
+                carries its own attribution: 3e's risk-reduction % is itself an
+                attribution variable, 3f counts only saves already scoped to a
+                specific HR intervention, and 3g is direct labor-hour
+                accounting.
+              </p>
+            </div>
+
+
             {/* Calculated influence */}
             <div className="mt-8 rounded-xl bg-white p-6 shadow-sm md:p-8">
               <h3 className="text-lg font-semibold text-navy">
