@@ -59,29 +59,53 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Sirius People brand kit v1.0 */
+  --color-navy: var(--navy);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-cream: var(--cream);
+  --color-warm-gray: var(--warm-gray);
+  --color-mid-gray: var(--mid-gray);
+  --color-body-text: var(--body-text);
+  --color-muted-text: var(--muted-text);
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "DM Sans", "Open Sans", sans-serif;
+  --font-mono: "Courier New", monospace;
 }
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+
+  /* Sirius People brand kit v1.0 — exact brand values */
+  --navy: oklch(0.283 0.039 249.3);
+  --gold: oklch(0.743 0.117 89.5);
+  --gold-light: oklch(0.935 0.045 90.4);
+  --cream: oklch(0.98 0.006 84.6);
+  --warm-gray: oklch(0.948 0.011 76.6);
+  --mid-gray: oklch(0.884 0.013 82.4);
+  --body-text: oklch(0.218 0 89.9);
+  --muted-text: oklch(0.561 0.019 84.6);
+
+  --background: var(--cream);
+  --foreground: var(--body-text);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --card-foreground: var(--body-text);
+  --popover: var(--navy);
+  --popover-foreground: oklch(1 0 0);
+  --primary: var(--navy);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: var(--warm-gray);
+  --secondary-foreground: var(--navy);
+  --muted: var(--warm-gray);
+  --muted-foreground: var(--muted-text);
+  --accent: var(--gold);
+  --accent-foreground: var(--navy);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: var(--mid-gray);
+  --input: var(--mid-gray);
+  --ring: var(--gold);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -140,5 +164,18 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+  }
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
   }
 }
