@@ -763,7 +763,9 @@ export function SpanOfInfluenceCalculator() {
 
               <p className="mt-6 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
                 3c is a breakdown of 3b, not an additional amount. The subtotal
-                adds 3a, 3b, and 3d so manager impact is never double-counted.
+                adds 3a, 3b, 3d, 3e, 3f and 3g so manager impact is never
+                double-counted.
+
               </p>
               <p className="mt-3 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
                 The HR-Attributable Share is applied to every indirect
