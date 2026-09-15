@@ -741,7 +741,26 @@ export function SpanOfInfluenceCalculator() {
                   amount={absenteeism}
                   formula={`${num(headcount).toLocaleString()} employees x ${num(absenceDays)} days x ${currency.format(num(dailyAbsenceCost))} x ${num(absenceReduction)}% reduction x ${num(hrShare)}% HR share`}
                 />
+                <ResultRow
+                  code="3e"
+                  title="Compliance / employment claim risk"
+                  amount={claimRisk}
+                  formula={`${currency.format(num(claimCost))} x ${num(claimProbability)}% probability x ${num(riskReduction)}% risk reduction`}
+                />
+                <ResultRow
+                  code="3f"
+                  title="Top performer retention"
+                  amount={topPerformer}
+                  formula={`${num(topRetained).toLocaleString()} retained x ${currency.format(num(topSalary))} x ${Math.max(num(performancePremium) - 1, 0).toFixed(1)} performance premium`}
+                />
+                <ResultRow
+                  code="3g"
+                  title="Policy coordination labor"
+                  amount={coordination}
+                  formula={`${num(coordinationHours).toLocaleString()} hours x ${currency.format(num(hourlyCost))} blended hourly cost`}
+                />
               </div>
+
               <p className="mt-6 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
                 3c is a breakdown of 3b, not an additional amount. The subtotal
                 adds 3a, 3b, and 3d so manager impact is never double-counted.
