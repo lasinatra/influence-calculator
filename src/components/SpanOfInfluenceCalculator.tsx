@@ -25,6 +25,10 @@ type FieldProps = {
   prefix?: string;
   suffix?: string;
   hint?: string;
+  placeholder?: string;
+  source?: string;
+  estimate?: boolean;
+  step?: string;
 };
 
 function NumberField({
@@ -35,15 +39,23 @@ function NumberField({
   prefix,
   suffix,
   hint,
+  placeholder,
+  source,
+  estimate,
+  step,
 }: FieldProps) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label
-        htmlFor={id}
-        className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text"
-      >
-        {label}
-      </label>
+      <div className="flex flex-wrap items-center gap-x-1 gap-y-1">
+        <label
+          htmlFor={id}
+          className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text"
+        >
+          {label}
+        </label>
+        {source ? <SourceTip source={source} /> : null}
+        {estimate ? <EstimateChip /> : null}
+      </div>
       <div className="flex items-center rounded-md border border-mid-gray bg-white focus-within:border-gold focus-within:ring-2 focus-within:ring-gold/30">
         {prefix ? (
           <span className="pl-3 text-sm text-muted-text">{prefix}</span>
@@ -53,6 +65,8 @@ function NumberField({
           type="number"
           inputMode="decimal"
           min={0}
+          step={step}
+          placeholder={placeholder}
           value={value}
           onChange={(event) => onChange(event.target.value)}
           className="w-full bg-transparent px-3 py-2 text-right text-base text-body-text outline-none"
@@ -65,6 +79,15 @@ function NumberField({
     </div>
   );
 }
+
+function EstimateChip() {
+  return (
+    <span className="rounded-full border border-gold px-2 py-[1px] text-[10px] font-medium uppercase tracking-[0.06em] text-gold">
+      Your estimate
+    </span>
+  );
+}
+
 
 function SourceTip({ source }: { source: string }) {
   return (
@@ -171,6 +194,21 @@ export function SpanOfInfluenceCalculator() {
   const [managerShare, setManagerShare] = useState("70");
   const [absenceReduction, setAbsenceReduction] = useState("78");
 
+  // Part B — 3e compliance / claim risk
+  const [claimCost, setClaimCost] = useState("160000");
+  const [claimProbability, setClaimProbability] = useState("10");
+  const [riskReduction, setRiskReduction] = useState("");
+
+  // Part B — 3f top performer retention
+  const [topRetained, setTopRetained] = useState("");
+  const [topSalary, setTopSalary] = useState("");
+  const [performancePremium, setPerformancePremium] = useState("2");
+
+  // Part B — 3g policy coordination labor
+  const [coordinationHours, setCoordinationHours] = useState("");
+  const [hourlyCost, setHourlyCost] = useState("75");
+
+
   const directTotal =
     num(hrTech) + num(recruiting) + num(learning) + num(hrComp);
 
@@ -204,7 +242,27 @@ export function SpanOfInfluenceCalculator() {
     (num(absenceReduction) / 100) *
     hrShareRate;
 
-  const indirectTotal = turnover + engagement + absenteeism;
+  // Part B — no HR-Attributable Share applied; each has its own attribution.
+  const claimRisk =
+    num(claimCost) * (num(claimProbability) / 100) * (num(riskReduction) / 100);
+
+  const topPerformer =
+    num(topRetained) * num(topSalary) * Math.max(num(performancePremium) - 1, 0);
+
+  const coordination = num(coordinationHours) * num(hourlyCost);
+
+  const indirectTotal =
+    turnover +
+    engagement +
+    absenteeism +
+    claimRisk +
+    topPerformer +
+    coordination;
+
+  const gap = indirectTotal - directTotal;
+  const ratio = directTotal > 0 ? indirectTotal / directTotal : 0;
+  const chartMax = Math.max(directTotal, indirectTotal, 1);
+
 
   const roleRows: Array<{
     level: string;
@@ -527,6 +585,120 @@ export function SpanOfInfluenceCalculator() {
               </div>
             </div>
 
+            {/* Part B — risk, retention, coordination */}
+            <div className="mt-8 rounded-xl bg-white p-6 shadow-sm md:p-8">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h3 className="text-lg font-semibold text-navy">
+                  Risk, retention and coordination
+                </h3>
+                <p className="text-xs text-muted-text">
+                  Part B &middot; 3e&ndash;3g
+                </p>
+              </div>
+
+              <div className="mt-6 border-t border-mid-gray pt-6">
+                <p className="text-sm font-medium text-navy">
+                  <span className="text-gold">3e</span> Compliance / employment
+                  claim risk
+                </p>
+                <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  <NumberField
+                    id="claim-cost"
+                    label="Avg cost of an employment claim"
+                    prefix="$"
+                    value={claimCost}
+                    onChange={setClaimCost}
+                    source="Hiscox Employment Practices Liability report: the average cost to defend and settle an employment charge is roughly $160,000."
+                  />
+                  <NumberField
+                    id="claim-probability"
+                    label="Baseline annual claim probability"
+                    suffix="%"
+                    value={claimProbability}
+                    onChange={setClaimProbability}
+                    source="Hiscox: US employers face roughly a 10% chance of an employment charge being filed against them in a given year."
+                  />
+                  <NumberField
+                    id="risk-reduction"
+                    label="Risk reduction from HR programs"
+                    suffix="%"
+                    value={riskReduction}
+                    onChange={setRiskReduction}
+                    placeholder="your estimate"
+                    estimate
+                  />
+                </div>
+              </div>
+
+              <div className="mt-8 border-t border-mid-gray pt-6">
+                <p className="text-sm font-medium text-navy">
+                  <span className="text-gold">3f</span> Top performer retention
+                </p>
+                <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  <NumberField
+                    id="top-retained"
+                    label="Top performers retained via HR intervention"
+                    value={topRetained}
+                    onChange={setTopRetained}
+                    placeholder="your estimate"
+                    estimate
+                  />
+                  <NumberField
+                    id="top-salary"
+                    label="Avg salary of a retained top performer"
+                    prefix="$"
+                    value={topSalary}
+                    onChange={setTopSalary}
+                    placeholder="your estimate"
+                    estimate
+                  />
+                  <NumberField
+                    id="performance-premium"
+                    label="Performance premium multiplier"
+                    suffix="x"
+                    step="0.1"
+                    value={performancePremium}
+                    onChange={setPerformancePremium}
+                    source="Research on individual output variance (Hunter, Schmidt &amp; Judiesch; O'Boyle &amp; Aguinis) finds high performers deliver roughly twice the output of an average performer in complex roles."
+                  />
+                </div>
+              </div>
+
+              <div className="mt-8 border-t border-mid-gray pt-6">
+                <p className="text-sm font-medium text-navy">
+                  <span className="text-gold">3g</span> Policy coordination
+                  labor
+                </p>
+                <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  <NumberField
+                    id="coordination-hours"
+                    label="Annual policy-coordination hours"
+                    value={coordinationHours}
+                    onChange={setCoordinationHours}
+                    placeholder="your estimate"
+                    estimate
+                  />
+                  <NumberField
+                    id="hourly-cost"
+                    label="Blended hourly cost"
+                    prefix="$"
+                    value={hourlyCost}
+                    onChange={setHourlyCost}
+                    source="Bureau of Labor Statistics Employer Costs for Employee Compensation: blended hourly cost of wages plus benefits for professional and management staff, rounded to $75."
+                  />
+                </div>
+              </div>
+
+              <p className="mt-8 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
+                The HR-Attributable Share is not applied to 3e, 3f or 3g. Each
+                carries its own attribution: 3e's risk-reduction % is itself an
+                attribution variable, 3f counts only saves already scoped to a
+                specific HR intervention, and 3g is direct labor-hour
+                accounting.
+              </p>
+            </div>
+
+
             {/* Calculated influence */}
             <div className="mt-8 rounded-xl bg-white p-6 shadow-sm md:p-8">
               <h3 className="text-lg font-semibold text-navy">
@@ -569,10 +741,31 @@ export function SpanOfInfluenceCalculator() {
                   amount={absenteeism}
                   formula={`${num(headcount).toLocaleString()} employees x ${num(absenceDays)} days x ${currency.format(num(dailyAbsenceCost))} x ${num(absenceReduction)}% reduction x ${num(hrShare)}% HR share`}
                 />
+                <ResultRow
+                  code="3e"
+                  title="Compliance / employment claim risk"
+                  amount={claimRisk}
+                  formula={`${currency.format(num(claimCost))} x ${num(claimProbability)}% probability x ${num(riskReduction)}% risk reduction`}
+                />
+                <ResultRow
+                  code="3f"
+                  title="Top performer retention"
+                  amount={topPerformer}
+                  formula={`${num(topRetained).toLocaleString()} retained x ${currency.format(num(topSalary))} x ${Math.max(num(performancePremium) - 1, 0).toFixed(1)} performance premium`}
+                />
+                <ResultRow
+                  code="3g"
+                  title="Policy coordination labor"
+                  amount={coordination}
+                  formula={`${num(coordinationHours).toLocaleString()} hours x ${currency.format(num(hourlyCost))} blended hourly cost`}
+                />
               </div>
+
               <p className="mt-6 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
                 3c is a breakdown of 3b, not an additional amount. The subtotal
-                adds 3a, 3b, and 3d so manager impact is never double-counted.
+                adds 3a, 3b, 3d, 3e, 3f and 3g so manager impact is never
+                double-counted.
+
               </p>
               <p className="mt-3 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
                 The HR-Attributable Share is applied to every indirect
@@ -581,6 +774,162 @@ export function SpanOfInfluenceCalculator() {
               </p>
             </div>
           </section>
+
+          {/* Section 03 — Output */}
+          <section aria-labelledby="gap-heading" className="mt-20">
+            <SectionHeading number="03" title="The Gap" />
+            <p id="gap-heading" className="sr-only">
+              The Gap
+            </p>
+
+            <div className="rounded-xl bg-white p-6 shadow-sm md:p-8">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="rounded-lg bg-warm-gray p-6">
+                  <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text">
+                    Accountable For
+                  </p>
+                  <p className="mt-3 font-display text-[34px] font-semibold leading-tight tabular-nums text-navy md:text-[44px]">
+                    {currency.format(directTotal)}
+                  </p>
+                  <p className="mt-2 text-xs text-muted-text">
+                    Budget lines HR owns outright
+                  </p>
+                </div>
+                <div className="rounded-lg bg-navy p-6">
+                  <p className="text-xs font-medium uppercase tracking-[0.08em] text-white/70">
+                    Actually Influence
+                  </p>
+                  <p className="mt-3 font-display text-[34px] font-semibold leading-tight tabular-nums text-gold md:text-[44px]">
+                    {currency.format(indirectTotal)}
+                  </p>
+                  <p className="mt-2 text-xs text-white/70">
+                    Indirect value across 3a&ndash;3g
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-8 flex flex-wrap items-baseline gap-x-8 gap-y-3 border-t border-mid-gray pt-6">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text">
+                    The gap
+                  </p>
+                  <p className="mt-1 font-display text-3xl font-semibold tabular-nums text-navy">
+                    {currency.format(gap)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text">
+                    Ratio
+                  </p>
+                  <p className="mt-1 font-display text-3xl font-semibold tabular-nums text-navy">
+                    1 : {ratio.toFixed(1)}
+                  </p>
+                </div>
+                <p className="max-w-md text-sm leading-relaxed text-muted-text">
+                  You influence {ratio.toFixed(1)}x what you are accountable
+                  for.
+                </p>
+              </div>
+
+              {/* Bar chart */}
+              <div className="mt-8 space-y-5 border-t border-mid-gray pt-8">
+                <div>
+                  <div className="flex items-baseline justify-between gap-3">
+                    <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text">
+                      Accountable For
+                    </p>
+                    <p className="text-sm font-semibold tabular-nums text-navy">
+                      {currency.format(directTotal)}
+                    </p>
+                  </div>
+                  <div className="mt-2 h-6 w-full overflow-hidden rounded-sm bg-warm-gray">
+                    <div
+                      className="h-full bg-navy transition-all duration-300"
+                      style={{ width: `${(directTotal / chartMax) * 100}%` }}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-baseline justify-between gap-3">
+                    <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text">
+                      Actually Influence
+                    </p>
+                    <p className="text-sm font-semibold tabular-nums text-navy">
+                      {currency.format(indirectTotal)}
+                    </p>
+                  </div>
+                  <div className="mt-2 h-6 w-full overflow-hidden rounded-sm bg-warm-gray">
+                    <div
+                      className="h-full bg-gold transition-all duration-300"
+                      style={{ width: `${(indirectTotal / chartMax) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Collapsible breakdown */}
+              <details className="group mt-8 rounded-lg border border-mid-gray">
+                <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-sm font-medium text-navy">
+                  <span>Breakdown of Indirect Influence (3a&ndash;3g)</span>
+                  <span
+                    aria-hidden="true"
+                    className="text-gold transition-transform group-open:rotate-180"
+                  >
+                    &#9662;
+                  </span>
+                </summary>
+                <div className="border-t border-mid-gray px-4 pb-4">
+                  {[
+                    { code: "3a", title: "Turnover / replacement cost", amount: turnover },
+                    { code: "3b", title: "Engagement productivity", amount: engagement },
+                    {
+                      code: "3c",
+                      title: "Manager effectiveness share",
+                      amount: managerEffectiveness,
+                      nested: true,
+                    },
+                    { code: "3d", title: "Absenteeism", amount: absenteeism },
+                    { code: "3e", title: "Compliance / claim risk", amount: claimRisk },
+                    { code: "3f", title: "Top performer retention", amount: topPerformer },
+                    { code: "3g", title: "Policy coordination labor", amount: coordination },
+                  ].map((row) => (
+                    <div
+                      key={row.code}
+                      className={`flex flex-wrap items-baseline justify-between gap-2 border-b border-mid-gray py-3 last:border-b-0 ${
+                        row.nested ? "pl-4 md:pl-6" : ""
+                      }`}
+                    >
+                      <p
+                        className={
+                          row.nested
+                            ? "text-sm text-muted-text"
+                            : "text-sm font-medium text-navy"
+                        }
+                      >
+                        <span className="text-gold">{row.code}</span>{" "}
+                        {row.title}
+                        {row.nested ? (
+                          <span className="ml-2 text-xs text-muted-text">
+                            within 3b &mdash; not added
+                          </span>
+                        ) : null}
+                      </p>
+                      <p
+                        className={`font-display font-semibold tabular-nums ${
+                          row.nested
+                            ? "text-base text-muted-text"
+                            : "text-lg text-navy"
+                        }`}
+                      >
+                        {currency.format(row.amount)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </details>
+            </div>
+          </section>
+
         </main>
 
         {/* Sticky totals */}
@@ -601,8 +950,9 @@ export function SpanOfInfluenceCalculator() {
             <div className="flex flex-1 items-baseline justify-between gap-3 md:justify-end md:gap-4">
               <p className="text-xs font-medium uppercase tracking-[0.08em] text-white/70">
                 Indirect Influence{" "}
-                <span className="text-gold">&middot; Partial (3a&ndash;3d)</span>
+                <span className="text-gold">&middot; 3a&ndash;3g</span>
               </p>
+
               <p className="font-display text-xl font-semibold tabular-nums text-gold md:text-2xl">
                 {currency.format(indirectTotal)}
               </p>
