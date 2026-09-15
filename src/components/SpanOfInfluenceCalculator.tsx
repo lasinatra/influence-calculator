@@ -25,6 +25,10 @@ type FieldProps = {
   prefix?: string;
   suffix?: string;
   hint?: string;
+  placeholder?: string;
+  source?: string;
+  estimate?: boolean;
+  step?: string;
 };
 
 function NumberField({
@@ -35,15 +39,23 @@ function NumberField({
   prefix,
   suffix,
   hint,
+  placeholder,
+  source,
+  estimate,
+  step,
 }: FieldProps) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label
-        htmlFor={id}
-        className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text"
-      >
-        {label}
-      </label>
+      <div className="flex flex-wrap items-center gap-x-1 gap-y-1">
+        <label
+          htmlFor={id}
+          className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text"
+        >
+          {label}
+        </label>
+        {source ? <SourceTip source={source} /> : null}
+        {estimate ? <EstimateChip /> : null}
+      </div>
       <div className="flex items-center rounded-md border border-mid-gray bg-white focus-within:border-gold focus-within:ring-2 focus-within:ring-gold/30">
         {prefix ? (
           <span className="pl-3 text-sm text-muted-text">{prefix}</span>
@@ -53,6 +65,8 @@ function NumberField({
           type="number"
           inputMode="decimal"
           min={0}
+          step={step}
+          placeholder={placeholder}
           value={value}
           onChange={(event) => onChange(event.target.value)}
           className="w-full bg-transparent px-3 py-2 text-right text-base text-body-text outline-none"
@@ -65,6 +79,15 @@ function NumberField({
     </div>
   );
 }
+
+function EstimateChip() {
+  return (
+    <span className="rounded-full border border-gold px-2 py-[1px] text-[10px] font-medium uppercase tracking-[0.06em] text-gold">
+      Your estimate
+    </span>
+  );
+}
+
 
 function SourceTip({ source }: { source: string }) {
   return (
