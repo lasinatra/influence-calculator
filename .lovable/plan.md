@@ -32,9 +32,9 @@ Four currency inputs, live-summed:
 
 **Calculated influence lines:**
 - 3a Turnover / replacement cost — departures x average salary x blended replacement % x HR-attributable share
-- 3b Engagement productivity — total workforce comp x uplift % x manager-attributable share x HR-attributable share
-- 3c Absenteeism — headcount x absence days x daily absence cost x reduction % x HR-attributable share
-- 3d Reserved as the fourth line (see open question below)
+- 3b Engagement productivity — total workforce comp x uplift % x HR-attributable share
+- 3c Manager effectiveness share — the portion of 3b attributable to managers: 3b result x manager-attributable share (70%)
+- 3d Absenteeism — headcount x absence days x daily absence cost x reduction % x HR-attributable share
 
 Every formula is printed under its result line so the math is auditable.
 
@@ -53,6 +53,6 @@ A sticky navy bar at the bottom of the page:
 - Tooltips use the shadcn Tooltip primitive already in the project
 - Page metadata set for the calculator (title, description, social tags)
 
-## Open question
+## Note on 3b / 3c
 
-You listed 3a–3d but named three influence levers (turnover, engagement, absenteeism). Tell me what 3d should be — options: manager effectiveness, safety/workers' comp, or overtime/contingent labor — and I'll build it. If you'd rather decide later, I'll ship 3a–3c and leave 3d clearly marked as a placeholder.
+Manager effectiveness (3c) is shown as a nested share of the engagement productivity figure (3b), so the two are not double-counted in the subtotal. The subtotal adds 3a + 3b + 3d, with 3c displayed as a breakdown line inside 3b. If you'd rather 3c be a fully separate lever with its own inputs, say so and I'll restructure it.
