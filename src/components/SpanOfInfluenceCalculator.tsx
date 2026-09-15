@@ -774,6 +774,162 @@ export function SpanOfInfluenceCalculator() {
               </p>
             </div>
           </section>
+
+          {/* Section 03 — Output */}
+          <section aria-labelledby="gap-heading" className="mt-20">
+            <SectionHeading number="03" title="The Gap" />
+            <p id="gap-heading" className="sr-only">
+              The Gap
+            </p>
+
+            <div className="rounded-xl bg-white p-6 shadow-sm md:p-8">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="rounded-lg bg-warm-gray p-6">
+                  <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text">
+                    Accountable For
+                  </p>
+                  <p className="mt-3 font-display text-[34px] font-semibold leading-tight tabular-nums text-navy md:text-[44px]">
+                    {currency.format(directTotal)}
+                  </p>
+                  <p className="mt-2 text-xs text-muted-text">
+                    Budget lines HR owns outright
+                  </p>
+                </div>
+                <div className="rounded-lg bg-navy p-6">
+                  <p className="text-xs font-medium uppercase tracking-[0.08em] text-white/70">
+                    Actually Influence
+                  </p>
+                  <p className="mt-3 font-display text-[34px] font-semibold leading-tight tabular-nums text-gold md:text-[44px]">
+                    {currency.format(indirectTotal)}
+                  </p>
+                  <p className="mt-2 text-xs text-white/70">
+                    Indirect value across 3a&ndash;3g
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-8 flex flex-wrap items-baseline gap-x-8 gap-y-3 border-t border-mid-gray pt-6">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text">
+                    The gap
+                  </p>
+                  <p className="mt-1 font-display text-3xl font-semibold tabular-nums text-navy">
+                    {currency.format(gap)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text">
+                    Ratio
+                  </p>
+                  <p className="mt-1 font-display text-3xl font-semibold tabular-nums text-navy">
+                    1 : {ratio.toFixed(1)}
+                  </p>
+                </div>
+                <p className="max-w-md text-sm leading-relaxed text-muted-text">
+                  You influence {ratio.toFixed(1)}x what you are accountable
+                  for.
+                </p>
+              </div>
+
+              {/* Bar chart */}
+              <div className="mt-8 space-y-5 border-t border-mid-gray pt-8">
+                <div>
+                  <div className="flex items-baseline justify-between gap-3">
+                    <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text">
+                      Accountable For
+                    </p>
+                    <p className="text-sm font-semibold tabular-nums text-navy">
+                      {currency.format(directTotal)}
+                    </p>
+                  </div>
+                  <div className="mt-2 h-6 w-full overflow-hidden rounded-sm bg-warm-gray">
+                    <div
+                      className="h-full bg-navy transition-all duration-300"
+                      style={{ width: `${(directTotal / chartMax) * 100}%` }}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-baseline justify-between gap-3">
+                    <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text">
+                      Actually Influence
+                    </p>
+                    <p className="text-sm font-semibold tabular-nums text-navy">
+                      {currency.format(indirectTotal)}
+                    </p>
+                  </div>
+                  <div className="mt-2 h-6 w-full overflow-hidden rounded-sm bg-warm-gray">
+                    <div
+                      className="h-full bg-gold transition-all duration-300"
+                      style={{ width: `${(indirectTotal / chartMax) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Collapsible breakdown */}
+              <details className="group mt-8 rounded-lg border border-mid-gray">
+                <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-sm font-medium text-navy">
+                  <span>Breakdown of Indirect Influence (3a&ndash;3g)</span>
+                  <span
+                    aria-hidden="true"
+                    className="text-gold transition-transform group-open:rotate-180"
+                  >
+                    &#9662;
+                  </span>
+                </summary>
+                <div className="border-t border-mid-gray px-4 pb-4">
+                  {[
+                    { code: "3a", title: "Turnover / replacement cost", amount: turnover },
+                    { code: "3b", title: "Engagement productivity", amount: engagement },
+                    {
+                      code: "3c",
+                      title: "Manager effectiveness share",
+                      amount: managerEffectiveness,
+                      nested: true,
+                    },
+                    { code: "3d", title: "Absenteeism", amount: absenteeism },
+                    { code: "3e", title: "Compliance / claim risk", amount: claimRisk },
+                    { code: "3f", title: "Top performer retention", amount: topPerformer },
+                    { code: "3g", title: "Policy coordination labor", amount: coordination },
+                  ].map((row) => (
+                    <div
+                      key={row.code}
+                      className={`flex flex-wrap items-baseline justify-between gap-2 border-b border-mid-gray py-3 last:border-b-0 ${
+                        row.nested ? "pl-4 md:pl-6" : ""
+                      }`}
+                    >
+                      <p
+                        className={
+                          row.nested
+                            ? "text-sm text-muted-text"
+                            : "text-sm font-medium text-navy"
+                        }
+                      >
+                        <span className="text-gold">{row.code}</span>{" "}
+                        {row.title}
+                        {row.nested ? (
+                          <span className="ml-2 text-xs text-muted-text">
+                            within 3b &mdash; not added
+                          </span>
+                        ) : null}
+                      </p>
+                      <p
+                        className={`font-display font-semibold tabular-nums ${
+                          row.nested
+                            ? "text-base text-muted-text"
+                            : "text-lg text-navy"
+                        }`}
+                      >
+                        {currency.format(row.amount)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </details>
+            </div>
+          </section>
+
         </main>
 
         {/* Sticky totals */}
