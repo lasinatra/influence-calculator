@@ -242,7 +242,27 @@ export function SpanOfInfluenceCalculator() {
     (num(absenceReduction) / 100) *
     hrShareRate;
 
-  const indirectTotal = turnover + engagement + absenteeism;
+  // Part B — no HR-Attributable Share applied; each has its own attribution.
+  const claimRisk =
+    num(claimCost) * (num(claimProbability) / 100) * (num(riskReduction) / 100);
+
+  const topPerformer =
+    num(topRetained) * num(topSalary) * Math.max(num(performancePremium) - 1, 0);
+
+  const coordination = num(coordinationHours) * num(hourlyCost);
+
+  const indirectTotal =
+    turnover +
+    engagement +
+    absenteeism +
+    claimRisk +
+    topPerformer +
+    coordination;
+
+  const gap = indirectTotal - directTotal;
+  const ratio = directTotal > 0 ? indirectTotal / directTotal : 0;
+  const chartMax = Math.max(directTotal, indirectTotal, 1);
+
 
   const roleRows: Array<{
     level: string;
