@@ -252,11 +252,11 @@ export function SpanOfInfluenceCalculator() {
   }> = [
     {
       id: "hr-share",
-      label: "HR-program-attributable share",
+      label: "HR-Attributable Share (applied across all indirect categories)",
       value: hrShare,
       set: setHrShare,
       source:
-        "Conservative attribution convention: roughly 30% of the measured business outcome is credited to HR programs, with the remainder attributed to market, product, and line-management factors.",
+        "No indirect outcome happens through HR's programs alone — managers, market conditions, and individual circumstance all play a role. This share represents the portion of each category's value attributable to HR's own systems and programs, applied consistently rather than only to turnover.",
     },
     {
       id: "uplift",
@@ -573,6 +573,11 @@ export function SpanOfInfluenceCalculator() {
               <p className="mt-6 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
                 3c is a breakdown of 3b, not an additional amount. The subtotal
                 adds 3a, 3b, and 3d so manager impact is never double-counted.
+              </p>
+              <p className="mt-3 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
+                The HR-Attributable Share is applied to every indirect
+                category, not just turnover — reflecting that no outcome here
+                happens through HR's programs alone.
               </p>
             </div>
           </section>
