@@ -1,49 +1,58 @@
 # SpanOfInfluenceCalculator
 
-## What you'll get
+A single-page interactive calculator built on the Sirius People brand kit v1.0, replacing the blank home page at `/`. No other routes or sections are touched.
 
-A single-page interactive calculator at the home page (`/`), built as a self-contained `SpanOfInfluenceCalculator` component. No other routes or files are touched beyond styles and the index page.
+## Brand foundation (from your brand kit)
 
-## Section 1 — Direct Accountability
+Tokens added to the stylesheet so everything stays on-brand:
+- Navy `#1a2b3c`, Gold `#c9a84c`, Gold Light `#f5e9c8`, Cream `#faf8f4`, Warm Gray `#f2ede6`, Mid Gray `#ddd8cf`, Body `#1a1a1a`, Muted `#7a7468`
+- Cormorant Garamond (display, 600) and DM Sans (body) loaded via the page head; Georgia and Open Sans as fallbacks
+- Cream page background, white cards with 12px radius and soft shadow, 1200px max width, 80–120px section padding
+- Section headers in the `01 / Title.` format — number in gold, title in navy — with 3–4px gold rules between sections
+- Legacy navy `#1a2744` is not used anywhere
 
-Four plain number inputs, summed into a running subtotal:
+## Section 01 / Direct Accountability
+
+Four currency inputs, live-summed:
 - HR tech spend
 - Recruiting budget
 - L&D budget
-- HR team comp + benefits
+- HR team compensation + benefits
 
-## Section 2 — Indirect Influence
+## Section 02 / Indirect Influence
 
-**Workforce inputs (2A):** headcount, average salary, annual voluntary departures, average absence days per employee, average daily cost of absence, total workforce compensation cost.
+**Workforce inputs:** headcount, average salary, annual voluntary departures, average absence days per employee, average daily cost of absence, total workforce compensation cost.
 
-**Configurable assumptions (pre-filled, editable):**
-- Replacement cost % by role level — small table: Entry 40% / Mid 80% / Senior 125% / Executive 200% (defaults editable)
+**Assumptions — pre-filled and editable, each with a gold star info tooltip citing its source:**
+- Replacement cost % by role level — mini table: Entry 40%, Mid 80%, Senior 125%, Executive 200%, with a headcount mix so the blended rate is transparent
 - HR-program-attributable share — 30%
 - Engagement productivity uplift — 17%
 - Manager-attributable share — 70%
 - Absenteeism reduction — 78%
 
-Each assumption gets a small info icon with a hover tooltip citing its source (e.g., SHRM, Gallup, industry benchmarks).
+**Calculated influence lines:**
+- 3a Turnover / replacement cost — departures x average salary x blended replacement % x HR-attributable share
+- 3b Engagement productivity — total workforce comp x uplift % x manager-attributable share x HR-attributable share
+- 3c Absenteeism — headcount x absence days x daily absence cost x reduction % x HR-attributable share
+- 3d Reserved as the fourth line (see open question below)
 
-**Computed influence lines (3a–3d):**
-- 3a Turnover/replacement cost influence: departures × avg salary × blended replacement % × HR-attributable share
-- 3b Engagement productivity: workforce comp × uplift % × manager-attributable share × HR-attributable share
-- 3c Absenteeism: headcount × absence days × daily absence cost × reduction % × HR-attributable share
-- 3d (per the stated defaults) — remaining influence line computed from the same inputs; exact formula shown in the UI so it's transparent
+Every formula is printed under its result line so the math is auditable.
 
-## Running totals bar (bottom, sticky)
+## Running totals
 
+A sticky navy bar at the bottom of the page:
 - Direct Accountability subtotal
-- Indirect Influence subtotal (3a–3d, labeled "Partial")
-- All values recalculate live on every keystroke, formatted as currency
+- Indirect Influence subtotal — labeled "Partial (3a–3d)"
+- Values recalculate on every keystroke, formatted as US currency
 
-## Styling
+## Technical notes
 
-- Add Sirius People brand tokens to `src/styles.css`: primary navy `#1a2b3c` (oklch), supporting tints for section panels, borders, and the totals bar
-- Typography and spacing reuse the project's existing design tokens
-- Clean, professional form layout: grouped sections with numbered headers, right-aligned currency inputs, subtle panel cards
-- No new dependencies — built with existing Tailwind + shadcn-style primitives already in the project
+- One new component, `SpanOfInfluenceCalculator`, rendered from `src/routes/index.tsx`
+- Brand tokens added to `src/styles.css`; fonts linked from the root route head
+- Local React state only, no backend, no new dependencies
+- Tooltips use the shadcn Tooltip primitive already in the project
+- Page metadata set for the calculator (title, description, social tags)
 
-## Note
+## Open question
 
-No Sirius People brand kit exists in the project today (fresh template). The plan encodes navy `#1a2b3c` as the primary brand token; if you have additional brand values (fonts, secondary colors), share them and I'll fold them in.
+You listed 3a–3d but named three influence levers (turnover, engagement, absenteeism). Tell me what 3d should be — options: manager effectiveness, safety/workers' comp, or overtime/contingent labor — and I'll build it. If you'd rather decide later, I'll ship 3a–3c and leave 3d clearly marked as a placeholder.
