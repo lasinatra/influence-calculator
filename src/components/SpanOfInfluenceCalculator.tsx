@@ -950,8 +950,9 @@ export function SpanOfInfluenceCalculator() {
             <div className="flex flex-1 items-baseline justify-between gap-3 md:justify-end md:gap-4">
               <p className="text-xs font-medium uppercase tracking-[0.08em] text-white/70">
                 Indirect Influence{" "}
-                <span className="text-gold">&middot; Partial (3a&ndash;3d)</span>
+                <span className="text-gold">&middot; 3a&ndash;3g</span>
               </p>
+
               <p className="font-display text-xl font-semibold tabular-nums text-gold md:text-2xl">
                 {currency.format(indirectTotal)}
               </p>
