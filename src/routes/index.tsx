@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SpanOfInfluenceCalculator } from "@/components/SpanOfInfluenceCalculator";
 
-const title = "Span of Influence Calculator | Sirius People, LLC";
+const title = "The Shadow Budget — A CHRO's Span-of-Influence Calculator";
 const description =
-  "Quantify what HR owns outright and what HR moves indirectly: direct budget accountability plus turnover, engagement, manager effectiveness, and absenteeism influence.";
+  "A CHRO's Span-of-Influence Calculator: quantify what HR owns outright and what HR moves indirectly — direct budgets plus turnover, engagement, absenteeism, and more.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
