@@ -77,14 +77,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "The Shadow Budget — A CHRO's Span-of-Influence Calculator" },
+      {
+        name: "description",
+        content:
+          "Quantify what HR owns outright and what HR moves indirectly — budgets, turnover, engagement, absenteeism, risk and more.",
+      },
+      { name: "author", content: "Sirius People, LLC" },
+      {
+        property: "og:title",
+        content: "The Shadow Budget — A CHRO's Span-of-Influence Calculator",
+      },
+      {
+        property: "og:description",
+        content:
+          "Quantify what HR owns outright and what HR moves indirectly — budgets, turnover, engagement, absenteeism, risk and more.",
+      },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "The Shadow Budget" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
