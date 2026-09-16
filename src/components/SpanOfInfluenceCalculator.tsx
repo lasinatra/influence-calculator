@@ -247,7 +247,7 @@ export function SpanOfInfluenceCalculator() {
     num(claimCost) * (num(claimProbability) / 100) * (num(riskReduction) / 100);
 
   const topPerformer =
-    num(topRetained) * num(topSalary) * Math.max(num(performancePremium) - 1, 0);
+    num(topRetained) * num(topSalary) * num(performancePremium);
 
   const coordination = num(coordinationHours) * num(hourlyCost);
 
@@ -751,7 +751,7 @@ export function SpanOfInfluenceCalculator() {
                   code="3f"
                   title="Top performer retention"
                   amount={topPerformer}
-                  formula={`${num(topRetained).toLocaleString()} retained x ${currency.format(num(topSalary))} x ${Math.max(num(performancePremium) - 1, 0).toFixed(1)} performance premium`}
+                  formula={`${num(topRetained).toLocaleString()} retained x ${currency.format(num(topSalary))} x ${num(performancePremium).toFixed(1)} performance premium`}
                 />
                 <ResultRow
                   code="3g"
