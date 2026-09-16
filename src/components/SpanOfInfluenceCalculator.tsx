@@ -360,8 +360,11 @@ export function SpanOfInfluenceCalculator() {
               &#9733; Sirius People, LLC
             </p>
             <h1 className="mt-4 max-w-3xl font-display text-[40px] font-semibold leading-[1.1] text-white md:text-[52px]">
-              Span of Influence Calculator
+              The Shadow Budget
             </h1>
+            <p className="mt-3 text-xs font-medium uppercase tracking-[0.08em] text-gold md:text-sm">
+              A CHRO&#39;s Span-of-Influence Calculator
+            </p>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/80 md:text-lg">
               What HR owns outright, and what HR moves indirectly. Enter your
               numbers, adjust the assumptions, and the case builds itself.
