@@ -12,6 +12,13 @@ const currency = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
+function compactCurrency(value: number): string {
+  if (value >= 1e9) return `$${(value / 1e9).toFixed(1)}B`;
+  if (value >= 1e6) return `$${(value / 1e6).toFixed(1)}M`;
+  if (value >= 1e3) return `$${(value / 1e3).toFixed(1)}K`;
+  return `$${Math.round(value)}`;
+}
+
 function num(value: string): number {
   const parsed = Number.parseFloat(value);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -211,6 +218,9 @@ export function SpanOfInfluenceCalculator() {
   const [coordinationHours, setCoordinationHours] = useState("");
   const [hourlyCost, setHourlyCost] = useState("75");
 
+  // Share card
+  const [copied, setCopied] = useState(false);
+
 
   const directTotal =
     num(hrTech) + num(recruiting) + num(learning) + num(hrComp);
@@ -265,6 +275,19 @@ export function SpanOfInfluenceCalculator() {
   const gap = indirectTotal - directTotal;
   const ratio = directTotal > 0 ? indirectTotal / directTotal : 0;
   const chartMax = Math.max(directTotal, indirectTotal, 1);
+
+  const shareSentence = `My HR budget is ${compactCurrency(directTotal)}. My actual influence is ${compactCurrency(indirectTotal)}, or ${ratio.toFixed(1)}x. Calculated with The Shadow Budget, a CHRO's Span-of-Influence Calculator, by Sirius People, LLC.`;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(shareSentence);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard unavailable — leave button as is.
+    }
+  };
+
 
 
   const roleRows: Array<{
@@ -827,7 +850,7 @@ export function SpanOfInfluenceCalculator() {
                     Ratio
                   </p>
                   <p className="mt-1 font-display text-3xl font-semibold tabular-nums text-navy">
-                    1 : {ratio.toFixed(1)}
+                    {ratio.toFixed(1)}x
                   </p>
                 </div>
                 <p className="max-w-md text-sm leading-relaxed text-muted-text">
@@ -930,6 +953,29 @@ export function SpanOfInfluenceCalculator() {
                   ))}
                 </div>
               </details>
+
+              {/* Share your result */}
+              {directTotal > 0 ? (
+                <div className="mt-8 rounded-lg border border-mid-gray bg-warm-gray p-5">
+                  <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text">
+                    Share your result
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-body-text md:text-base">
+                    {shareSentence}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className="mt-4 rounded-md bg-navy px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+                  >
+                    {copied ? "Copied" : "Copy"}
+                  </button>
+                  <p className="mt-3 text-xs text-muted-text">
+                    Defaults are illustrative. Adjust the assumptions to your
+                    organization.
+                  </p>
+                </div>
+              ) : null}
             </div>
           </section>
 
