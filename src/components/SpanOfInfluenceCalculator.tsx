@@ -700,11 +700,12 @@ export function SpanOfInfluenceCalculator() {
               </div>
 
               <p className="mt-8 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
-                The HR-Attributable Share is not applied to 3e, 3f or 3g. Each
-                carries its own attribution: 3e's risk-reduction % is itself an
-                attribution variable, 3f counts only saves already scoped to a
-                specific HR intervention, and 3g is direct labor-hour
-                accounting.
+                The HR-Attributable Share is not applied to compliance risk,
+                top performer retention, or policy coordination. Each carries
+                its own attribution: the risk-reduction % is itself an
+                attribution variable, retention counts only saves already
+                scoped to a specific HR intervention, and coordination is
+                direct labor-hour accounting.
               </p>
             </div>
 
@@ -716,16 +717,14 @@ export function SpanOfInfluenceCalculator() {
               </h3>
               <div className="mt-4">
                 <ResultRow
-                  code="3a"
                   title="Turnover / replacement cost"
                   amount={turnover}
-                  formula={`${num(departures).toLocaleString()} departures x ${currency.format(num(avgSalary))} x ${blendedReplacement.toFixed(1)}% blended x ${num(hrShare)}% HR share`}
+                  formula={`${num(departures).toLocaleString()} departures x ${currency.format(num(avgSalary))} x ${blendedReplacement.toFixed(2)}% blended x ${num(hrShare)}% HR share`}
                 />
                 <div className="border-b border-mid-gray py-4">
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
                     <p className="font-medium text-navy">
-                      <span className="text-gold">3b</span> Engagement
-                      productivity
+                      Engagement productivity
                     </p>
                     <p className="font-display text-2xl font-semibold tabular-nums text-navy">
                       {currency.format(engagement)}
