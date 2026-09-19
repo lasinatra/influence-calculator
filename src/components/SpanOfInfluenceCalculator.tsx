@@ -910,11 +910,10 @@ export function SpanOfInfluenceCalculator() {
                             : "text-sm font-medium text-navy"
                         }
                       >
-                        <span className="text-gold">{row.code}</span>{" "}
                         {row.title}
                         {row.nested ? (
                           <span className="ml-2 text-xs text-muted-text">
-                            within 3b &mdash; not added
+                            within Engagement productivity &mdash; not added
                           </span>
                         ) : null}
                       </p>
@@ -953,8 +952,7 @@ export function SpanOfInfluenceCalculator() {
             />
             <div className="flex flex-1 items-baseline justify-between gap-3 md:justify-end md:gap-4">
               <p className="text-xs font-medium uppercase tracking-[0.08em] text-white/70">
-                Indirect Influence{" "}
-                <span className="text-gold">&middot; 3a&ndash;3g</span>
+                Indirect Influence
               </p>
 
               <p className="font-display text-xl font-semibold tabular-nums text-gold md:text-2xl">
