@@ -120,7 +120,7 @@ function SourceTip({ source }: { source: string }) {
   }, [open]);
 
   return (
-    <Tooltip open={open} onOpenChange={(v) => { console.log("radix onOpenChange", v); setOpen(v); }}>
+    <Tooltip open={open} onOpenChange={setOpen}>
       <TooltipTrigger asChild>
         <button
           ref={triggerRef}
