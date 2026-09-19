@@ -610,8 +610,7 @@ export function SpanOfInfluenceCalculator() {
 
               <div className="mt-6 border-t border-mid-gray pt-6">
                 <p className="text-sm font-medium text-navy">
-                  <span className="text-gold">3e</span> Compliance / employment
-                  claim risk
+                  Compliance / employment claim risk
                 </p>
                 <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   <NumberField
@@ -644,7 +643,7 @@ export function SpanOfInfluenceCalculator() {
 
               <div className="mt-8 border-t border-mid-gray pt-6">
                 <p className="text-sm font-medium text-navy">
-                  <span className="text-gold">3f</span> Top performer retention
+                  Top performer retention
                 </p>
                 <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   <NumberField
@@ -678,8 +677,7 @@ export function SpanOfInfluenceCalculator() {
 
               <div className="mt-8 border-t border-mid-gray pt-6">
                 <p className="text-sm font-medium text-navy">
-                  <span className="text-gold">3g</span> Policy coordination
-                  labor
+                  Policy coordination labor
                 </p>
                 <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   <NumberField
