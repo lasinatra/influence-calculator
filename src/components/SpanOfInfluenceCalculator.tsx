@@ -766,15 +766,16 @@ export function SpanOfInfluenceCalculator() {
               </div>
 
               <p className="mt-6 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
-                3c is a breakdown of 3b, not an additional amount. The subtotal
-                adds 3a, 3b, 3d, 3e, 3f and 3g so manager impact is never
-                double-counted.
-
+                Manager effectiveness share is a breakdown of Engagement
+                productivity, not an additional amount. The subtotal adds
+                Turnover, Engagement productivity, Absenteeism, Compliance
+                risk, Top performer retention, and Policy coordination so
+                manager impact is never double-counted.
               </p>
               <p className="mt-3 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
-                The HR-Attributable Share is applied to every indirect
-                category, not just turnover — reflecting that no outcome here
-                happens through HR's programs alone.
+                The HR-Attributable Share is applied to turnover, engagement
+                productivity, and absenteeism only — reflecting that no
+                outcome here happens through HR's programs alone.
               </p>
             </div>
           </section>
@@ -807,7 +808,7 @@ export function SpanOfInfluenceCalculator() {
                     {currency.format(indirectTotal)}
                   </p>
                   <p className="mt-2 text-xs text-white/70">
-                    Indirect value across 3a&ndash;3g
+                    Indirect value across all indirect categories
                   </p>
                 </div>
               </div>
