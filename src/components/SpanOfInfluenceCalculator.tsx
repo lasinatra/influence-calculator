@@ -124,7 +124,11 @@ function SourceTip({ source }: { source: string }) {
           ref={triggerRef}
           type="button"
           aria-label={`Source: ${source}`}
-          onClick={() => setOpen((prev) => !prev)}
+          onPointerDown={(event) => event.preventDefault()}
+          onClick={(event) => {
+            event.preventDefault();
+            setOpen((prev) => !prev);
+          }}
           className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full text-gold transition-opacity hover:opacity-70"
         >
           <span aria-hidden="true" className="text-[11px] leading-none">
