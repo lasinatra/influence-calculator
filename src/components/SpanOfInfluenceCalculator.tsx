@@ -276,7 +276,7 @@ export function SpanOfInfluenceCalculator() {
   const ratio = directTotal > 0 ? indirectTotal / directTotal : 0;
   const chartMax = Math.max(directTotal, indirectTotal, 1);
 
-  const shareSentence = `My HR budget is ${compactCurrency(directTotal)}. My actual influence is ${compactCurrency(indirectTotal)}, or ${ratio.toFixed(1)}x. Calculated with The Shadow Budget, a CHRO's Span-of-Influence Calculator, by Sirius People, LLC.`;
+  const shareSentence = `My HR budget is ${compactCurrency(directTotal)}. My actual influence is ${compactCurrency(indirectTotal)}, or ${ratio.toFixed(1)}x my budget. Calculated with The Shadow Budget, a CHRO's Span-of-Influence Calculator, by Sirius People, LLC.`;
 
   const handleCopy = async () => {
     try {
