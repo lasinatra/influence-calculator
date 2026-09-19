@@ -128,7 +128,7 @@ function ResultRow({
   amount,
   nested,
 }: {
-  code: string;
+  code?: string;
   title: string;
   formula: string;
   amount: number;
@@ -146,7 +146,10 @@ function ResultRow({
         <p
           className={`font-medium ${nested ? "text-sm text-muted-text" : "text-navy"}`}
         >
-          <span className="text-gold">{code}</span> {title}
+          {code ? (
+            <span className="text-gold">{code} </span>
+          ) : null}
+          {title}
         </p>
         <p
           className={`font-display font-semibold tabular-nums ${
