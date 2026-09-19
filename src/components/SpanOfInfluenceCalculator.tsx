@@ -953,6 +953,29 @@ export function SpanOfInfluenceCalculator() {
                   ))}
                 </div>
               </details>
+
+              {/* Share your result */}
+              {directTotal > 0 ? (
+                <div className="mt-8 rounded-lg border border-mid-gray bg-warm-gray p-5">
+                  <p className="text-xs font-medium uppercase tracking-[0.08em] text-muted-text">
+                    Share your result
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-body-text md:text-base">
+                    {shareSentence}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className="mt-4 rounded-md bg-navy px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+                  >
+                    {copied ? "Copied" : "Copy"}
+                  </button>
+                  <p className="mt-3 text-xs text-muted-text">
+                    Defaults are illustrative. Adjust the assumptions to your
+                    organization.
+                  </p>
+                </div>
+              ) : null}
             </div>
           </section>
 
