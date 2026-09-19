@@ -526,6 +526,9 @@ export function SpanOfInfluenceCalculator() {
                           className="px-4 py-2 text-left font-medium text-navy"
                         >
                           {row.level}
+                          <span className="block text-xs font-normal text-muted-text">
+                            {row.descriptor}
+                          </span>
                         </th>
                         <td className="px-4 py-2">
                           <input
@@ -557,7 +560,7 @@ export function SpanOfInfluenceCalculator() {
                         Blended rate
                       </th>
                       <td className="px-4 py-2 text-right font-semibold tabular-nums text-navy">
-                        {blendedReplacement.toFixed(1)}%
+                        {blendedReplacement.toFixed(2)}%
                       </td>
                       <td className="px-4 py-2 text-right text-xs text-muted-text">
                         {mixTotal.toFixed(0)}% allocated
@@ -603,9 +606,6 @@ export function SpanOfInfluenceCalculator() {
                 <h3 className="text-lg font-semibold text-navy">
                   Risk, retention and coordination
                 </h3>
-                <p className="text-xs text-muted-text">
-                  Part B &middot; 3e&ndash;3g
-                </p>
               </div>
 
               <div className="mt-6 border-t border-mid-gray pt-6">
