@@ -128,7 +128,7 @@ function ResultRow({
   amount,
   nested,
 }: {
-  code: string;
+  code?: string;
   title: string;
   formula: string;
   amount: number;
@@ -146,7 +146,10 @@ function ResultRow({
         <p
           className={`font-medium ${nested ? "text-sm text-muted-text" : "text-navy"}`}
         >
-          <span className="text-gold">{code}</span> {title}
+          {code ? (
+            <span className="text-gold">{code} </span>
+          ) : null}
+          {title}
         </p>
         <p
           className={`font-display font-semibold tabular-nums ${
@@ -266,6 +269,7 @@ export function SpanOfInfluenceCalculator() {
 
   const roleRows: Array<{
     level: string;
+    descriptor: string;
     cost: string;
     setCost: (v: string) => void;
     mix: string;
@@ -273,6 +277,7 @@ export function SpanOfInfluenceCalculator() {
   }> = [
     {
       level: "Entry",
+      descriptor: "Individual contributor / staff",
       cost: replEntry,
       setCost: setReplEntry,
       mix: mixEntry,
@@ -280,6 +285,7 @@ export function SpanOfInfluenceCalculator() {
     },
     {
       level: "Mid",
+      descriptor: "Technical / specialist",
       cost: replMid,
       setCost: setReplMid,
       mix: mixMid,
@@ -287,6 +293,7 @@ export function SpanOfInfluenceCalculator() {
     },
     {
       level: "Senior",
+      descriptor: "Manager or Director",
       cost: replSenior,
       setCost: setReplSenior,
       mix: mixSenior,
@@ -294,6 +301,7 @@ export function SpanOfInfluenceCalculator() {
     },
     {
       level: "Executive",
+      descriptor: "VP and above",
       cost: replExec,
       setCost: setReplExec,
       mix: mixExec,
@@ -310,7 +318,7 @@ export function SpanOfInfluenceCalculator() {
   }> = [
     {
       id: "hr-share",
-      label: "HR-Attributable Share (applied across all indirect categories)",
+      label: "HR-Attributable Share (applied to turnover, engagement productivity, and absenteeism)",
       value: hrShare,
       set: setHrShare,
       source:
@@ -482,8 +490,9 @@ export function SpanOfInfluenceCalculator() {
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="text-lg font-semibold text-navy">Assumptions</h3>
                 <p className="text-xs text-muted-text">
-                  Pre-filled with benchmark defaults. Hover a{" "}
-                  <span className="text-gold">&#9733;</span> for the source.
+                  Pre-filled with illustrative defaults. Hover a{" "}
+                  <span className="text-gold">&#9733;</span> for the source;
+                  adjust the departure mix to your organization.
                 </p>
               </div>
 
@@ -493,7 +502,7 @@ export function SpanOfInfluenceCalculator() {
                   <p className="text-xs font-medium uppercase tracking-[0.08em] text-navy">
                     Replacement cost % by role level
                   </p>
-                  <SourceTip source="SHRM and Work Institute benchmarks: replacement cost ranges from roughly 40% of salary for entry roles to 200%+ for executive roles, covering recruiting, onboarding, lost productivity, and ramp time." />
+                  <SourceTip source="SHRM and Work Institute benchmarks: replacement cost ranges from roughly 40% of salary for entry roles to 200%+ for executive roles, covering recruiting, onboarding, lost productivity, and ramp time. Entry = Individual contributor / staff; Mid = Technical / specialist; Senior = Manager or Director; Executive = VP and above." />
                 </div>
                 <table className="w-full text-sm">
                   <thead>
@@ -517,6 +526,9 @@ export function SpanOfInfluenceCalculator() {
                           className="px-4 py-2 text-left font-medium text-navy"
                         >
                           {row.level}
+                          <span className="block text-xs font-normal text-muted-text">
+                            {row.descriptor}
+                          </span>
                         </th>
                         <td className="px-4 py-2">
                           <input
@@ -548,7 +560,7 @@ export function SpanOfInfluenceCalculator() {
                         Blended rate
                       </th>
                       <td className="px-4 py-2 text-right font-semibold tabular-nums text-navy">
-                        {blendedReplacement.toFixed(1)}%
+                        {blendedReplacement.toFixed(2)}%
                       </td>
                       <td className="px-4 py-2 text-right text-xs text-muted-text">
                         {mixTotal.toFixed(0)}% allocated
@@ -594,15 +606,11 @@ export function SpanOfInfluenceCalculator() {
                 <h3 className="text-lg font-semibold text-navy">
                   Risk, retention and coordination
                 </h3>
-                <p className="text-xs text-muted-text">
-                  Part B &middot; 3e&ndash;3g
-                </p>
               </div>
 
               <div className="mt-6 border-t border-mid-gray pt-6">
                 <p className="text-sm font-medium text-navy">
-                  <span className="text-gold">3e</span> Compliance / employment
-                  claim risk
+                  Compliance / employment claim risk
                 </p>
                 <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   <NumberField
@@ -635,7 +643,7 @@ export function SpanOfInfluenceCalculator() {
 
               <div className="mt-8 border-t border-mid-gray pt-6">
                 <p className="text-sm font-medium text-navy">
-                  <span className="text-gold">3f</span> Top performer retention
+                  Top performer retention
                 </p>
                 <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   <NumberField
@@ -669,8 +677,7 @@ export function SpanOfInfluenceCalculator() {
 
               <div className="mt-8 border-t border-mid-gray pt-6">
                 <p className="text-sm font-medium text-navy">
-                  <span className="text-gold">3g</span> Policy coordination
-                  labor
+                  Policy coordination labor
                 </p>
                 <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   <NumberField
@@ -693,11 +700,12 @@ export function SpanOfInfluenceCalculator() {
               </div>
 
               <p className="mt-8 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
-                The HR-Attributable Share is not applied to 3e, 3f or 3g. Each
-                carries its own attribution: 3e's risk-reduction % is itself an
-                attribution variable, 3f counts only saves already scoped to a
-                specific HR intervention, and 3g is direct labor-hour
-                accounting.
+                The HR-Attributable Share is not applied to compliance risk,
+                top performer retention, or policy coordination. Each carries
+                its own attribution: the risk-reduction % is itself an
+                attribution variable, retention counts only saves already
+                scoped to a specific HR intervention, and coordination is
+                direct labor-hour accounting.
               </p>
             </div>
 
@@ -709,16 +717,14 @@ export function SpanOfInfluenceCalculator() {
               </h3>
               <div className="mt-4">
                 <ResultRow
-                  code="3a"
                   title="Turnover / replacement cost"
                   amount={turnover}
-                  formula={`${num(departures).toLocaleString()} departures x ${currency.format(num(avgSalary))} x ${blendedReplacement.toFixed(1)}% blended x ${num(hrShare)}% HR share`}
+                  formula={`${num(departures).toLocaleString()} departures x ${currency.format(num(avgSalary))} x ${blendedReplacement.toFixed(2)}% blended x ${num(hrShare)}% HR share`}
                 />
                 <div className="border-b border-mid-gray py-4">
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
                     <p className="font-medium text-navy">
-                      <span className="text-gold">3b</span> Engagement
-                      productivity
+                      Engagement productivity
                     </p>
                     <p className="font-display text-2xl font-semibold tabular-nums text-navy">
                       {currency.format(engagement)}
@@ -731,33 +737,28 @@ export function SpanOfInfluenceCalculator() {
                   <div className="mt-4">
                     <ResultRow
                       nested
-                      code="3c"
-                      title="Manager effectiveness share (within 3b)"
+                      title="Manager effectiveness share (within Engagement productivity)"
                       amount={managerEffectiveness}
                       formula={`${currency.format(engagement)} x ${num(managerShare)}% manager-attributable`}
                     />
                   </div>
                 </div>
                 <ResultRow
-                  code="3d"
                   title="Absenteeism"
                   amount={absenteeism}
                   formula={`${num(headcount).toLocaleString()} employees x ${num(absenceDays)} days x ${currency.format(num(dailyAbsenceCost))} x ${num(absenceReduction)}% reduction x ${num(hrShare)}% HR share`}
                 />
                 <ResultRow
-                  code="3e"
                   title="Compliance / employment claim risk"
                   amount={claimRisk}
                   formula={`${currency.format(num(claimCost))} x ${num(claimProbability)}% probability x ${num(riskReduction)}% risk reduction`}
                 />
                 <ResultRow
-                  code="3f"
                   title="Top performer retention"
                   amount={topPerformer}
                   formula={`${num(topRetained).toLocaleString()} retained x ${currency.format(num(topSalary))} x ${num(performancePremium).toFixed(1)} performance premium`}
                 />
                 <ResultRow
-                  code="3g"
                   title="Policy coordination labor"
                   amount={coordination}
                   formula={`${num(coordinationHours).toLocaleString()} hours x ${currency.format(num(hourlyCost))} blended hourly cost`}
@@ -765,15 +766,16 @@ export function SpanOfInfluenceCalculator() {
               </div>
 
               <p className="mt-6 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
-                3c is a breakdown of 3b, not an additional amount. The subtotal
-                adds 3a, 3b, 3d, 3e, 3f and 3g so manager impact is never
-                double-counted.
-
+                Manager effectiveness share is a breakdown of Engagement
+                productivity, not an additional amount. The subtotal adds
+                Turnover, Engagement productivity, Absenteeism, Compliance
+                risk, Top performer retention, and Policy coordination so
+                manager impact is never double-counted.
               </p>
               <p className="mt-3 rounded-lg bg-gold-light/60 px-4 py-3 text-xs leading-relaxed text-body-text">
-                The HR-Attributable Share is applied to every indirect
-                category, not just turnover — reflecting that no outcome here
-                happens through HR's programs alone.
+                The HR-Attributable Share is applied to turnover, engagement
+                productivity, and absenteeism only — reflecting that no
+                outcome here happens through HR's programs alone.
               </p>
             </div>
           </section>
@@ -806,7 +808,7 @@ export function SpanOfInfluenceCalculator() {
                     {currency.format(indirectTotal)}
                   </p>
                   <p className="mt-2 text-xs text-white/70">
-                    Indirect value across 3a&ndash;3g
+                    Indirect value across all indirect categories
                   </p>
                 </div>
               </div>
@@ -873,7 +875,7 @@ export function SpanOfInfluenceCalculator() {
               {/* Collapsible breakdown */}
               <details className="group mt-8 rounded-lg border border-mid-gray">
                 <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-sm font-medium text-navy">
-                  <span>Breakdown of Indirect Influence (3a&ndash;3g)</span>
+                  <span>Breakdown of Indirect Influence</span>
                   <span
                     aria-hidden="true"
                     className="text-gold transition-transform group-open:rotate-180"
@@ -883,21 +885,20 @@ export function SpanOfInfluenceCalculator() {
                 </summary>
                 <div className="border-t border-mid-gray px-4 pb-4">
                   {[
-                    { code: "3a", title: "Turnover / replacement cost", amount: turnover },
-                    { code: "3b", title: "Engagement productivity", amount: engagement },
+                    { title: "Turnover / replacement cost", amount: turnover },
+                    { title: "Engagement productivity", amount: engagement },
                     {
-                      code: "3c",
                       title: "Manager effectiveness share",
                       amount: managerEffectiveness,
                       nested: true,
                     },
-                    { code: "3d", title: "Absenteeism", amount: absenteeism },
-                    { code: "3e", title: "Compliance / claim risk", amount: claimRisk },
-                    { code: "3f", title: "Top performer retention", amount: topPerformer },
-                    { code: "3g", title: "Policy coordination labor", amount: coordination },
+                    { title: "Absenteeism", amount: absenteeism },
+                    { title: "Compliance / claim risk", amount: claimRisk },
+                    { title: "Top performer retention", amount: topPerformer },
+                    { title: "Policy coordination labor", amount: coordination },
                   ].map((row) => (
                     <div
-                      key={row.code}
+                      key={row.title}
                       className={`flex flex-wrap items-baseline justify-between gap-2 border-b border-mid-gray py-3 last:border-b-0 ${
                         row.nested ? "pl-4 md:pl-6" : ""
                       }`}
@@ -909,11 +910,10 @@ export function SpanOfInfluenceCalculator() {
                             : "text-sm font-medium text-navy"
                         }
                       >
-                        <span className="text-gold">{row.code}</span>{" "}
                         {row.title}
                         {row.nested ? (
                           <span className="ml-2 text-xs text-muted-text">
-                            within 3b &mdash; not added
+                            within Engagement productivity &mdash; not added
                           </span>
                         ) : null}
                       </p>
@@ -952,8 +952,7 @@ export function SpanOfInfluenceCalculator() {
             />
             <div className="flex flex-1 items-baseline justify-between gap-3 md:justify-end md:gap-4">
               <p className="text-xs font-medium uppercase tracking-[0.08em] text-white/70">
-                Indirect Influence{" "}
-                <span className="text-gold">&middot; 3a&ndash;3g</span>
+                Indirect Influence
               </p>
 
               <p className="font-display text-xl font-semibold tabular-nums text-gold md:text-2xl">
