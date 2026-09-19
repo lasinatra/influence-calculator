@@ -875,7 +875,7 @@ export function SpanOfInfluenceCalculator() {
               {/* Collapsible breakdown */}
               <details className="group mt-8 rounded-lg border border-mid-gray">
                 <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-sm font-medium text-navy">
-                  <span>Breakdown of Indirect Influence (3a&ndash;3g)</span>
+                  <span>Breakdown of Indirect Influence</span>
                   <span
                     aria-hidden="true"
                     className="text-gold transition-transform group-open:rotate-180"
@@ -885,21 +885,20 @@ export function SpanOfInfluenceCalculator() {
                 </summary>
                 <div className="border-t border-mid-gray px-4 pb-4">
                   {[
-                    { code: "3a", title: "Turnover / replacement cost", amount: turnover },
-                    { code: "3b", title: "Engagement productivity", amount: engagement },
+                    { title: "Turnover / replacement cost", amount: turnover },
+                    { title: "Engagement productivity", amount: engagement },
                     {
-                      code: "3c",
                       title: "Manager effectiveness share",
                       amount: managerEffectiveness,
                       nested: true,
                     },
-                    { code: "3d", title: "Absenteeism", amount: absenteeism },
-                    { code: "3e", title: "Compliance / claim risk", amount: claimRisk },
-                    { code: "3f", title: "Top performer retention", amount: topPerformer },
-                    { code: "3g", title: "Policy coordination labor", amount: coordination },
+                    { title: "Absenteeism", amount: absenteeism },
+                    { title: "Compliance / claim risk", amount: claimRisk },
+                    { title: "Top performer retention", amount: topPerformer },
+                    { title: "Policy coordination labor", amount: coordination },
                   ].map((row) => (
                     <div
-                      key={row.code}
+                      key={row.title}
                       className={`flex flex-wrap items-baseline justify-between gap-2 border-b border-mid-gray py-3 last:border-b-0 ${
                         row.nested ? "pl-4 md:pl-6" : ""
                       }`}
