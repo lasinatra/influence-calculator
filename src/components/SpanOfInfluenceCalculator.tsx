@@ -269,6 +269,7 @@ export function SpanOfInfluenceCalculator() {
 
   const roleRows: Array<{
     level: string;
+    descriptor: string;
     cost: string;
     setCost: (v: string) => void;
     mix: string;
@@ -276,6 +277,7 @@ export function SpanOfInfluenceCalculator() {
   }> = [
     {
       level: "Entry",
+      descriptor: "Individual contributor / staff",
       cost: replEntry,
       setCost: setReplEntry,
       mix: mixEntry,
@@ -283,6 +285,7 @@ export function SpanOfInfluenceCalculator() {
     },
     {
       level: "Mid",
+      descriptor: "Technical / specialist",
       cost: replMid,
       setCost: setReplMid,
       mix: mixMid,
@@ -290,6 +293,7 @@ export function SpanOfInfluenceCalculator() {
     },
     {
       level: "Senior",
+      descriptor: "Manager or Director",
       cost: replSenior,
       setCost: setReplSenior,
       mix: mixSenior,
@@ -297,6 +301,7 @@ export function SpanOfInfluenceCalculator() {
     },
     {
       level: "Executive",
+      descriptor: "VP and above",
       cost: replExec,
       setCost: setReplExec,
       mix: mixExec,
@@ -313,7 +318,7 @@ export function SpanOfInfluenceCalculator() {
   }> = [
     {
       id: "hr-share",
-      label: "HR-Attributable Share (applied across all indirect categories)",
+      label: "HR-Attributable Share (applied to turnover, engagement productivity, and absenteeism)",
       value: hrShare,
       set: setHrShare,
       source:
