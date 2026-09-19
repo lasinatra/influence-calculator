@@ -125,10 +125,14 @@ function SourceTip({ source }: { source: string }) {
           ref={triggerRef}
           type="button"
           aria-label={`Source: ${source}`}
-          onPointerDown={(event) => event.preventDefault()}
-          onClick={(event) => {
-            event.preventDefault();
-            setOpen((prev) => !prev);
+          onPointerDown={(event) => {
+            pointerTypeRef.current = event.pointerType;
+            if (event.pointerType === "touch") event.preventDefault();
+          }}
+          onClick={() => {
+            if (pointerTypeRef.current === "touch") {
+              setOpen((prev) => !prev);
+            }
           }}
           className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full text-gold transition-opacity hover:opacity-70"
         >
