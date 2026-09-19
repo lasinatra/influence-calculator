@@ -99,6 +99,7 @@ function EstimateChip() {
 function SourceTip({ source }: { source: string }) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const pointerTypeRef = useRef<string>("");
 
   useEffect(() => {
     if (!open) return;
