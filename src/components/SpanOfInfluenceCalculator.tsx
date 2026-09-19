@@ -127,12 +127,21 @@ function SourceTip({ source }: { source: string }) {
           type="button"
           aria-label={`Source: ${source}`}
           onPointerDown={(event) => {
-            pointerTypeRef.current = event.pointerType; console.log("pointerdown", event.pointerType);
-            if (event.pointerType === "touch") event.preventDefault();
+            pointerTypeRef.current = event.pointerType;
+            if (event.pointerType === "touch") {
+              // When already open, let the tooltip library close it on
+              // pointerdown and skip our click toggle so it stays closed.
+              closedOnPointerDownRef.current = open;
+              if (!open) event.preventDefault();
+            }
           }}
           onClick={() => {
-            console.log("click, type:", pointerTypeRef.current); if (pointerTypeRef.current === "touch") {
-              setOpen((prev) => !prev);
+            if (pointerTypeRef.current === "touch") {
+              if (closedOnPointerDownRef.current) {
+                closedOnPointerDownRef.current = false;
+                return;
+              }
+              setOpen(true);
             }
           }}
           className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full text-gold transition-opacity hover:opacity-70"
