@@ -737,33 +737,28 @@ export function SpanOfInfluenceCalculator() {
                   <div className="mt-4">
                     <ResultRow
                       nested
-                      code="3c"
-                      title="Manager effectiveness share (within 3b)"
+                      title="Manager effectiveness share (within Engagement productivity)"
                       amount={managerEffectiveness}
                       formula={`${currency.format(engagement)} x ${num(managerShare)}% manager-attributable`}
                     />
                   </div>
                 </div>
                 <ResultRow
-                  code="3d"
                   title="Absenteeism"
                   amount={absenteeism}
                   formula={`${num(headcount).toLocaleString()} employees x ${num(absenceDays)} days x ${currency.format(num(dailyAbsenceCost))} x ${num(absenceReduction)}% reduction x ${num(hrShare)}% HR share`}
                 />
                 <ResultRow
-                  code="3e"
                   title="Compliance / employment claim risk"
                   amount={claimRisk}
                   formula={`${currency.format(num(claimCost))} x ${num(claimProbability)}% probability x ${num(riskReduction)}% risk reduction`}
                 />
                 <ResultRow
-                  code="3f"
                   title="Top performer retention"
                   amount={topPerformer}
                   formula={`${num(topRetained).toLocaleString()} retained x ${currency.format(num(topSalary))} x ${num(performancePremium).toFixed(1)} performance premium`}
                 />
                 <ResultRow
-                  code="3g"
                   title="Policy coordination labor"
                   amount={coordination}
                   formula={`${num(coordinationHours).toLocaleString()} hours x ${currency.format(num(hourlyCost))} blended hourly cost`}
