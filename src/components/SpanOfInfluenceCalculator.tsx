@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -97,12 +97,53 @@ function EstimateChip() {
 
 
 function SourceTip({ source }: { source: string }) {
+  const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const pointerTypeRef = useRef<string>("");
+  const closedOnPointerDownRef = useRef(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target as Node | null;
+      if (
+        target &&
+        triggerRef.current &&
+        !triggerRef.current.contains(target) &&
+        !(target instanceof Element && target.closest("[data-radix-popper-content-wrapper]"))
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [open]);
+
   return (
-    <Tooltip>
+    <Tooltip open={open} onOpenChange={setOpen}>
       <TooltipTrigger asChild>
         <button
+          ref={triggerRef}
           type="button"
           aria-label={`Source: ${source}`}
+          onPointerDown={(event) => {
+            pointerTypeRef.current = event.pointerType;
+            if (event.pointerType === "touch") {
+              // When already open, let the tooltip library close it on
+              // pointerdown and skip our click toggle so it stays closed.
+              closedOnPointerDownRef.current = open;
+              if (!open) event.preventDefault();
+            }
+          }}
+          onClick={() => {
+            if (pointerTypeRef.current === "touch") {
+              if (closedOnPointerDownRef.current) {
+                closedOnPointerDownRef.current = false;
+                return;
+              }
+              setOpen(true);
+            }
+          }}
           className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full text-gold transition-opacity hover:opacity-70"
         >
           <span aria-hidden="true" className="text-[11px] leading-none">
