@@ -283,7 +283,8 @@ export function SpanOfInfluenceCalculator() {
       await navigator.clipboard.writeText(shareSentence);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
-    } catch {
+    } catch (err) {
+      console.error("copy failed", err);
       // Clipboard unavailable — leave button as is.
     }
   };
