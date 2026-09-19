@@ -490,8 +490,9 @@ export function SpanOfInfluenceCalculator() {
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="text-lg font-semibold text-navy">Assumptions</h3>
                 <p className="text-xs text-muted-text">
-                  Pre-filled with benchmark defaults. Hover a{" "}
-                  <span className="text-gold">&#9733;</span> for the source.
+                  Pre-filled with illustrative defaults. Hover a{" "}
+                  <span className="text-gold">&#9733;</span> for the source;
+                  adjust the departure mix to your organization.
                 </p>
               </div>
 
@@ -501,7 +502,7 @@ export function SpanOfInfluenceCalculator() {
                   <p className="text-xs font-medium uppercase tracking-[0.08em] text-navy">
                     Replacement cost % by role level
                   </p>
-                  <SourceTip source="SHRM and Work Institute benchmarks: replacement cost ranges from roughly 40% of salary for entry roles to 200%+ for executive roles, covering recruiting, onboarding, lost productivity, and ramp time." />
+                  <SourceTip source="SHRM and Work Institute benchmarks: replacement cost ranges from roughly 40% of salary for entry roles to 200%+ for executive roles, covering recruiting, onboarding, lost productivity, and ramp time. Entry = Individual contributor / staff; Mid = Technical / specialist; Senior = Manager or Director; Executive = VP and above." />
                 </div>
                 <table className="w-full text-sm">
                   <thead>
