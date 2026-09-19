@@ -119,18 +119,18 @@ function SourceTip({ source }: { source: string }) {
   }, [open]);
 
   return (
-    <Tooltip open={open} onOpenChange={setOpen}>
+    <Tooltip open={open} onOpenChange={(v) => { console.log("radix onOpenChange", v); setOpen(v); }}>
       <TooltipTrigger asChild>
         <button
           ref={triggerRef}
           type="button"
           aria-label={`Source: ${source}`}
           onPointerDown={(event) => {
-            pointerTypeRef.current = event.pointerType;
+            pointerTypeRef.current = event.pointerType; console.log("pointerdown", event.pointerType);
             if (event.pointerType === "touch") event.preventDefault();
           }}
           onClick={() => {
-            if (pointerTypeRef.current === "touch") {
+            console.log("click, type:", pointerTypeRef.current); if (pointerTypeRef.current === "touch") {
               setOpen((prev) => !prev);
             }
           }}
